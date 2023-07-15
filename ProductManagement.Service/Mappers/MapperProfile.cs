@@ -10,7 +10,13 @@ public class MapperProfile : Profile
 
     CreateMap<Product, ProductForCreationDto>().ReverseMap();
     CreateMap<Product, ProductForResultDto>().ReverseMap();
-    
+
+    CreateMap<ProductCategory, ProductCategoryForCreationDto>().ReverseMap();
+    CreateMap<ProductCategory, ProductCategoryForResultDto>().ReverseMap();
+
+    CreateMap<Category, CategoryForCreationDto>().ReverseMap();
+    CreateMap<Category, CategoryForResultDto>().ReverseMap();
+
     }
 
 }
