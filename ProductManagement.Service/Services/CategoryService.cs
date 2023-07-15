@@ -18,7 +18,7 @@ public class CategoryService : ICategoryService
         this.categoryRepository = categoryRepository;
     }
 
-    public async ValueTask<CategoryForResultDto> AddAsync(CategoryForCreationDto dto)
+    public async Task<CategoryForResultDto> AddAsync(CategoryForCreationDto dto)
     {
         var category = await categoryRepository.SelectAsync(srn => srn.Name == dto.Name);
         if (category is not null && !category.IsDeleted)
@@ -33,7 +33,7 @@ public class CategoryService : ICategoryService
         return mapper.Map<CategoryForResultDto>(addedCategory);
     }
 
-    public async ValueTask<bool> RemoveAsync(long id)
+    public async Task<bool> RemoveAsync(long id)
     {
 
         var category = await categoryRepository.SelectAsync(p => p.Id == id);
@@ -45,7 +45,7 @@ public class CategoryService : ICategoryService
 
         return true;
     }
-    public async ValueTask<IEnumerable<CategoryForResultDto>> RetrieveAllAsync()
+    public async Task<IEnumerable<CategoryForResultDto>> RetrieveAllAsync()
     {
         var categories = await categoryRepository.SelectAll()
             .Where(p => !p.IsDeleted)
@@ -54,7 +54,7 @@ public class CategoryService : ICategoryService
         return mapper.Map<IEnumerable<CategoryForResultDto>>(categories);
 
     }
-    public async ValueTask<CategoryForResultDto> RetrieveByIdAsync(long id)
+    public async Task<CategoryForResultDto> RetrieveByIdAsync(long id)
     {
         var category = await categoryRepository.SelectAsync(p => p.Id == id);
 
@@ -63,7 +63,7 @@ public class CategoryService : ICategoryService
 
         return mapper.Map<CategoryForResultDto>(category);
     }
-    public async ValueTask<CategoryForResultDto> ModifyAsync(long id, CategoryForCreationDto dto)
+    public async Task<CategoryForResultDto> ModifyAsync(long id, CategoryForCreationDto dto)
     {
         var category = await categoryRepository.SelectAsync(p => p.Id == id);
         if (category is null || category.IsDeleted)

@@ -3,9 +3,9 @@
 namespace ProductManagement.Service.Interfaces;
 public interface ICategoryService
 {
-    public ValueTask<CategoryForResultDto> AddAsync(CategoryForCreationDto dto);
-    public ValueTask<CategoryForResultDto> ModifyAsync(long id, CategoryForCreationDto dto);
-    public ValueTask<bool> RemoveAsync(long id);
-    public ValueTask<CategoryForResultDto> RetrieveByIdAsync(long id);
-    public ValueTask<IEnumerable<CategoryForResultDto>> RetrieveAllAsync();
+    public Task<CategoryForResultDto> AddAsync(CategoryForCreationDto dto);
+    public Task<CategoryForResultDto> ModifyAsync(long id, CategoryForCreationDto dto);
+    public Task<bool> RemoveAsync(long id);
+    public Task<CategoryForResultDto> RetrieveByIdAsync(long id);
+    public Task<IEnumerable<CategoryForResultDto>> RetrieveAllAsync();
 }
