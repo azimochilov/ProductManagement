@@ -16,4 +16,8 @@
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\ProductManagement.Service\ProductManagement.Service.csproj" />
+  </ItemGroup>
+
 </Project>
