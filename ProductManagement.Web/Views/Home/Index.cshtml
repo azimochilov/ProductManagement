@@ -16,6 +16,12 @@
     </button>
 </p>
 
+<p>
+    <button style="background-color: yellow;">
+        @Html.ActionLink("Move to ProductCategory Page", "ProductCategory")
+    </button>
+</p>
+
 <table class="table">
     <tr>
         <th>ID</th>
@@ -23,7 +29,6 @@
         <th>Price</th>
         <th>Weight</th>
         <th>Serial</th>
-        <th>Category</th>
         <th></th>
     </tr>
     @if (Model != null)
@@ -35,8 +40,7 @@
                     <td>@product.Name</td>
                     <td>@product.Price</td>
                     <td>@product.Weight</td>
-                    <td>@product.Serial</td>               
-                    <td>@product.CategoryId</td>                    
+                    <td>@product.Serial</td>                               
                 
                 <td>
                     @Html.ActionLink("Edit", "ProductEdit", new { id = product.Id }, new { @class = "btn btn-primary", style = "background-color: blue; color: white;" })

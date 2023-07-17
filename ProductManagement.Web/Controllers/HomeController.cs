@@ -13,11 +13,13 @@ public class HomeController : Controller
     private readonly ILogger<HomeController> _logger;
     private readonly IProductService productService;
     private readonly ICategoryService categoryService;
-    public HomeController(ILogger<HomeController> logger, IProductService productService, ICategoryService categoryService)
+    private readonly IProductCategoryService categoryProductService;
+    public HomeController(ILogger<HomeController> logger, IProductService productService, ICategoryService categoryService, IProductCategoryService categoryProductService)
     {
         _logger = logger;
         this.productService = productService;
         this.categoryService = categoryService;
+        this.categoryProductService = categoryProductService;
     }
 
     public async Task<IActionResult> Index()
@@ -232,7 +234,7 @@ public class HomeController : Controller
     }
 
     // GET: Home/ProductCategoryDelete/{id}
-    [HttpGet("ProductCategoryDelete/{id}")]
+    [HttpGet("ProductCategoryyDelete/{id}")]
     public async Task<IActionResult> DeleteCategory(long id)
     {
         try
@@ -254,7 +256,7 @@ public class HomeController : Controller
     // POST: Product/ProductCategoryDeleteConfirmed/{id}
     [HttpPost]
     [ValidateAntiForgeryToken]
-    [Route("ProductCategoryDeleteConfirmed/{id}")]
+    [Route("ProductCategoryyDeleteConfirmed/{id}")]
     public async Task<IActionResult> DeleteCategoryConfirmed(long id)
     {
         try
@@ -267,5 +269,150 @@ public class HomeController : Controller
             return NotFound(ex.Message);
         }
     }
+
+
+    // PRODUCT CATEGORY
+
+
+    public async Task<IActionResult> ProductCategory()
+    {
+        var categories = await categoryProductService.RetrieveAllAsync();
+        return View(categories.ToList());
+    }
+
+    public IActionResult ProductCategoryCreate()
+    {
+        return View();
+    }
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> ProductCategoryCreate(ProductCategoryForCreationDto dto)
+    {
+        if (ModelState.IsValid)
+        {
+            try
+            {
+                var addedProductCategory = await categoryProductService.AddAsync(dto);
+                var productCategories = await categoryProductService.RetrieveAllAsync();
+                var productCategoriesDto = productCategories.Select(pc => new ProductCategoryForResultDto
+                {
+                    Id = pc.Id,
+                    ProductId = pc.ProductId,
+                    Product = new ProductForResultDto
+                    {
+                        Id = pc.Product.Id,
+                        Name = pc.Product.Name,
+                        Price = pc.Product.Price,
+                        Weight = pc.Product.Weight,
+                        Serial = pc.Product.Serial
+                    },
+                    Category = new CategoryForResultDto
+                    {
+                        Id = pc.Category.Id,
+                        Name = pc.Category.Name
+                    }
+                });
+
+                return RedirectToAction("ProductCategory");
+            }
+            catch (AppException ex)
+            {
+                ModelState.AddModelError("", ex.Message);
+            }
+        }
+
+        return View(dto);
+    }
+
+    // GET: Home/ProductCategoryEdit
+    [HttpGet]
+    [Route("ProductCategoryEdit")]
+    public IActionResult ProductCategoryEdit()
+    {
+        return View();
+    }
+
+    // GET: Home/ProductCategoryEdit/{id}
+    [HttpGet]
+    [Route("ProductCategoryEdit/{id:long}")]
+    public async Task<IActionResult> ProductCategoryEdit(long id)
+    {
+        try
+        {
+            var category = await categoryProductService.RetrieveByIdAsync(id);
+            var dto = new ProductCategoryForCreationDto
+            {
+                ProductId = category.ProductId,
+                CategoryId= category.CategoryId,
+            };
+            return View(dto);
+        }
+        catch (AppException ex)
+        {
+            return NotFound(ex.Message);
+        }
+    }
+
+    // POST: Home/ProductCategoryEdit/{id}
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    [Route("ProductCategoryEdit/{id:long}")]
+    public async Task<IActionResult> ProductCategoryEdit(long id, ProductCategoryForCreationDto dto)
+    {
+        if (ModelState.IsValid)
+        {
+            try
+            {
+                var modifiedCategory = await categoryProductService.ModifyAsync(id, dto);
+                return RedirectToAction("ProductCategory");
+            }
+            catch (AppException ex)
+            {
+                return NotFound(ex.Message);
+            }
+        }
+
+        return View(dto);
+    }
+
+    // GET: Home/ProductCategoryDelete/{id}
+    [HttpGet("ProductCategoryDelete/{id}")]
+    public async Task<IActionResult> ProductCategoryDelete(long id)
+    {
+        try
+        {
+            var category = await categoryProductService.RetrieveByIdAsync(id);
+            var dto = new ProductCategoryForResultDto
+            {
+                Id = id,
+                CategoryId= category.CategoryId,
+                ProductId = category.ProductId,                
+                
+            };
+            return View(dto);
+        }
+        catch (AppException ex)
+        {
+            return NotFound(ex.Message);
+        }
+    }
+
+    // POST: Product/ProductCategoryDeleteConfirmed/{id}
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    [Route("ProductCategoryDeleteConfirmed/{id}")]
+    public async Task<IActionResult> ProductCategoryDeleteConfirmed(long id)
+    {
+        try
+        {
+            await categoryProductService.RemoveAsync(id);
+            return RedirectToAction("ProductCategory");
+        }
+        catch (AppException ex)
+        {
+            return NotFound(ex.Message);
+        }
+    }
+
 
 }

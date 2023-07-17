@@ -46,11 +46,12 @@ public class ProductCategoryService : IProductCategoryService
     public async Task<IEnumerable<ProductCategoryForResultDto>> RetrieveAllAsync()
     {
         var productCategories = await productCategoryRepository.SelectAll()
-            .Where(p => !p.IsDeleted)
+            .Include(pc => pc.Product)
+            .Include(pc => pc.Category)
+            .Where(pc => !pc.IsDeleted)
             .ToListAsync();
 
         return mapper.Map<IEnumerable<ProductCategoryForResultDto>>(productCategories);
-
     }
     public async Task<ProductCategoryForResultDto> RetrieveByIdAsync(long id)
     {

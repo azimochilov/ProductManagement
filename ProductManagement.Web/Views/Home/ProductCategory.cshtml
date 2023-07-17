@@ -1,0 +1,44 @@
+﻿@using ProductManagement.Service.DTOs.Products
+@model IEnumerable<ProductCategoryForResultDto>
+
+<h2>Product With Categories List</h2>
+
+<p>
+    <button style="background-color: yellow;">
+        @Html.ActionLink("Create", "ProductCategoryCreate")
+    </button>
+</p>
+
+<table class="table">
+    <tr>
+        <th>ID</th>
+        <th>ProductId</th>
+        <th>Name</th>
+        <th>Price</th>
+        <th>Weight</th>
+        <th>Serial</th>
+        <th>Category</th>
+        <th></th>
+    </tr>
+    @if (Model != null)
+    {
+        foreach (var product in Model)
+        {
+            <tr>
+                <td>@product.Id</td>
+                <td>@product.ProductId</td>
+                <td>@(product.Product != null ? product.Product.Name : string.Empty)</td>
+                <td>@(product.Product != null ? product.Product.Price.ToString() : string.Empty)</td>
+                <td>@(product.Product != null ? product.Product.Weight.ToString() : string.Empty)</td>
+                <td>@(product.Product != null ? product.Product.Serial : string.Empty)</td>
+                <td>@(product.Category != null ? product.Category.Name : string.Empty)</td>
+
+                <td>
+                    @Html.ActionLink("Edit", "ProductCategoryEdit", new { id = product.Id }, new { @class = "btn btn-primary", style = "background-color: blue; color: white;" })
+                    |
+                    @Html.ActionLink("Delete", "ProductCategoryDelete", new { id = product.Id }, new { @class = "btn btn-danger", style = "background-color: red; color: white;" })
+                </td>
+            </tr>
+        }
+    }
+</table>
