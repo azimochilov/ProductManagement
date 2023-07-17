@@ -1,0 +1,30 @@
+﻿@using ProductManagement.Service.DTOs.Products;
+@model IEnumerable<ProductForResultDto>
+
+<h2>Product List</h2>
+
+<p>
+    @Html.ActionLink("Create New Product", "Create")
+</p>
+
+<table class="table">
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Price</th>
+        <th></th>
+    </tr>
+    @foreach (var product in Model)
+    {
+        <tr>
+            <td>@product.Id</td>
+            <td>@product.Name</td>
+            <td>@product.Price</td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = product.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = product.Id })
+            </td>
+        </tr>
+    }
+</table>
+

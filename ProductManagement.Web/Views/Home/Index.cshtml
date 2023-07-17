@@ -1,8 +1,55 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
+﻿@using ProductManagement.Service.DTOs.Products;
+@model IEnumerable<ProductForResultDto>
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<h2>Product List</h2>
+
+<p>
+   <button style="background-color: yellow;">
+    @Html.ActionLink("Create New Product", "ProductCreate")
+    </button>
+
+</p>
+
+<p>
+    <button style="background-color: blueviolet;">
+        @Html.ActionLink("Create New Product Category", "ProductCreate")
+    </button>
+</p>
+
+<table class="table">
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Price</th>
+        <th>Weight</th>
+        <th>Serial</th>
+        <th>Category</th>
+        <th></th>
+    </tr>
+    @if (Model != null)
+    {
+        foreach (var product in Model)
+        {
+                <tr>
+                    <td>@product.Id</td>
+                    <td>@product.Name</td>
+                    <td>@product.Price</td>
+                    <td>@product.Weight</td>
+                    <td>@product.Serial</td>
+                @*@if (@product.Category.Category.Name!= null)
+                {
+                    <td>@product.Category.Category.Name</td>                    
+                }*@
+                <td>@product.CategoryId</td>                
+                <td>
+                    @Html.ActionLink("Edit", "ProductEdit", new { id = product.Id }, new { @class = "btn btn-primary", style = "background-color: blue; color: white;" })
+|
+                    @Html.ActionLink("Delete", "ProductDelete", new { id = product.Id }, new { @class = "btn btn-danger", style = "background-color: red; color: white;" })
+
+                </td>
+                </tr>
+        }
+    }
+
+</table>
+
