@@ -1,0 +1,41 @@
+﻿@using ProductManagement.Service.DTOs.Products;
+@model IEnumerable<CategoryForResultDto>
+
+<h2>Product Category List</h2>
+
+<p>
+    <button style="background-color: yellow;">
+        @Html.ActionLink("Create New Product Category", "CreateCategory")
+    </button>
+</p>
+
+<table class="table">
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th></th>
+    </tr>
+    @if (Model != null)
+    {
+        foreach (var product in Model)
+        {
+            <tr>
+                <td>@product.Id</td>
+                <td>@product.Name</td>                             
+                <td>
+                    @Html.ActionLink("Edit", "EditCategory", new { id = product.Id }, new { @class = "btn btn-primary", style = "background-color: blue; color: white;" })
+                    |
+                    @Html.ActionLink("Delete", "DeleteCategory", new { id = product.Id }, new { @class = "btn btn-danger", style = "background-color: red; color: white;" })
+
+                </td>
+            </tr>
+        }
+    }
+
+</table>
+
+<p>
+    <button style="background-color: gray; color: black">
+        @Html.ActionLink("Move to Back", "Index")
+    </button>
+</p>

@@ -11,8 +11,8 @@
 </p>
 
 <p>
-    <button style="background-color: blueviolet;">
-        @Html.ActionLink("Create New Product Category", "ProductCreate")
+    <button style="background-color: yellow;">
+        @Html.ActionLink("Move to Category Page", "Category")
     </button>
 </p>
 
@@ -35,12 +35,9 @@
                     <td>@product.Name</td>
                     <td>@product.Price</td>
                     <td>@product.Weight</td>
-                    <td>@product.Serial</td>
-                @*@if (@product.Category.Category.Name!= null)
-                {
-                    <td>@product.Category.Category.Name</td>                    
-                }*@
-                <td>@product.CategoryId</td>                
+                    <td>@product.Serial</td>               
+                    <td>@product.CategoryId</td>                    
+                
                 <td>
                     @Html.ActionLink("Edit", "ProductEdit", new { id = product.Id }, new { @class = "btn btn-primary", style = "background-color: blue; color: white;" })
 |

@@ -1,19 +1,19 @@
 ﻿@using ProductManagement.Service.DTOs.Products;
 @model CategoryForCreationDto
 
-<h2>Create Product Category</h2>
+<h2>Edit Product Category</h2>
 
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
 
-    <div class="form-group">
+        <div class="form-group">
         @Html.LabelFor(model => model.Name)
         @Html.TextBoxFor(model => model.Name, new { @class = "form-control" })
         @Html.ValidationMessageFor(model => model.Name)
-    </div>
+        </div>
 
-    <div class="form-group">
-        <input type="submit" value="Create" class="btn btn-primary" style="background-color: yellow; color: black;" />
-    </div>
+        <div class="form-group">
+            <input type="submit" value="Update" class="btn btn-primary" />
+        </div>
 }

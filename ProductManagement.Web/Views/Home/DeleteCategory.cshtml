@@ -1,0 +1,36 @@
+﻿@using ProductManagement.Service.DTOs.Products;
+@model CategoryForResultDto
+
+<h2>Delete Product Category</h2>
+
+<div>
+    <h4>Product Category Details</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            ID
+        </dt>
+        <dd class="col-sm-10">
+            @Model.Id
+        </dd>
+
+        <dt class="col-sm-2">
+            Name
+        </dt>
+        <dd class="col-sm-10">
+            @Model.Name
+        </dd>
+
+    </dl>
+</div>
+
+@using (Html.BeginForm("DeleteCategoryConfirmed", "Home", new { id = Model.Id }, FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+        <p>Are you sure you want to delete this product?</p>
+
+        <input type="submit" value="Delete" class="btn btn-danger" />
+        <a href="@Url.Action("Category")" class="btn btn-secondary" style="background-color: blue; color: white;">Cancel</a>
+
+}
